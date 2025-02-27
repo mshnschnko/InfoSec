@@ -1,35 +1,3 @@
-def main():
-    expected_freq = [
-        0.0801, 0.0159, 0.0454, 0.0165, 0.0296, 0.0845, 0.0040, 0.0073,
-        0.0160, 0.0734, 0.0121, 0.0349, 0.0440, 0.0321, 0.0670, 0.1097,
-        0.0281, 0.0473, 0.0547, 0.0626, 0.0262, 0.0026, 0.0097, 0.0048,
-        0.0144, 0.0073, 0.0036, 0.0004, 0.0190, 0.0174, 0.0032, 0.0064,
-        0.0201
-    ]
-    
-    russian_letters = [
-        'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м',
-        'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ',
-        'ы', 'ь', 'э', 'ю', 'я'
-    ]
-
-    with open('K1/original_text.txt', 'r', encoding='utf-8') as f:
-        ciphertext = f.read()
-
-    original, clean = preprocess(ciphertext, russian_letters)
-    
-    key_len = find_key_length(clean)
-    print(f"Найдена длина ключа: {key_len}")
-
-    key = find_key(clean, key_len, expected_freq, russian_letters)
-    print(f"Предполагаемый ключ: {key}")
-
-    decrypted = decrypt(original, clean, key, russian_letters)
-    print("\nРасшифрованный текст сохранен в файл K1/decrypted_text.txt")
-
-    with open('K1/decrypted_text.txt', 'w', encoding='utf-8') as f:
-        f.write(decrypted)
-
 def preprocess(text, letters):
     original = []
     clean = []
@@ -110,6 +78,38 @@ def decrypt(original, clean, key, letters):
         else:
             result.append(c)
     return ''.join(result)
+
+def main():
+    expected_freq = [
+        0.0801, 0.0159, 0.0454, 0.0165, 0.0296, 0.0845, 0.0040, 0.0073,
+        0.0160, 0.0734, 0.0121, 0.0349, 0.0440, 0.0321, 0.0670, 0.1097,
+        0.0281, 0.0473, 0.0547, 0.0626, 0.0262, 0.0026, 0.0097, 0.0048,
+        0.0144, 0.0073, 0.0036, 0.0004, 0.0190, 0.0174, 0.0032, 0.0064,
+        0.0201
+    ]
+    
+    russian_letters = [
+        'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м',
+        'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ',
+        'ы', 'ь', 'э', 'ю', 'я'
+    ]
+
+    with open('K1/original_text.txt', 'r', encoding='utf-8') as f:
+        ciphertext = f.read()
+
+    original, clean = preprocess(ciphertext, russian_letters)
+    
+    key_len = find_key_length(clean)
+    print(f"Найдена длина ключа: {key_len}")
+
+    key = find_key(clean, key_len, expected_freq, russian_letters)
+    print(f"Предполагаемый ключ: {key}")
+
+    decrypted = decrypt(original, clean, key, russian_letters)
+    print("\nРасшифрованный текст сохранен в файл K1/decrypted_text.txt")
+
+    with open('K1/decrypted_text.txt', 'w', encoding='utf-8') as f:
+        f.write(decrypted)
 
 if __name__ == "__main__":
     main()
